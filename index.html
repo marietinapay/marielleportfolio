@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marielle's Portfolio</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<style>
+:root {
+    --main-color: #c1ab97; /*main bg*/
+    --secondary-color: #2d593c ; /*sa mga box*/
+    --accent: #263c2e ; /*line, buttons*/
+    --soft-text: #efe8dd; /*sa fonts*/ 
+    --border-color: #000000; /*border*/
+}
+
+#home .ui-header, #home .ui-footer, #about .ui-header, #about .ui-footer, #contact .ui-header, #contact .ui-footer {
+    background-color: var(--secondary-color) !important;
+}
+#home .ui-content {
+    position: relative;
+    z-index: 2; 
+    background: none !important; 
+}
+        
+.video-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 1; 
+}
+.video-background video {
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} 
+
+body *, .ui-page, .ui-page-theme-a .ui-content, .ui-btn {
+    text-shadow: none !important;
+}
+
+body, .ui-page, .ui-page-theme-a .ui-content {
+    background: url(bg3.png);
+    color: var(--soft-text) !important; 
+    font-family: 'Helvetica', sans-serif;
+}
+.ui-header, .ui-footer {
+    background-color: var( --main-color) !important;
+    border-color: var(--border-color) !important;
+}
+.ui-header h1, .ui-footer h4 {
+    color: var(--soft-text) !important;
+}
+
+.ui-btn {
+    background-color: var(--accent) !important;
+    color: var(--soft-text) !important; 
+    border-color: var(--border-color) !important;
+    border-radius: 75px !important;
+    
+}  
+.ui-btn.ui-btn-a {
+    background-color: var(--accent) !important;
+    color: var(--soft-text) !important; 
+    border-color: var(--accent) !important;
+}  
+.ui-btn:hover {
+    opacity: 0.75;
+}
+
+.home-image-stack {
+    text-align: center;
+    position: relative; 
+    margin-top: 1rem; 
+    margin-bottom: 1rem;
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+}
+.home-image-stack .person-img {
+    width: 100%;
+    max-width: 300px;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    z-index: 10;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+.home-hero-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    padding-top: 3rem;
+}
+@media (min-width: 700px) { 
+    .home-hero-container {
+        flex-direction: row; 
+        align-items: flex-start; 
+        text-align: left;
+    }
+    .home-hero-container .home-text-content {
+        flex: 1; 
+        text-align: left; 
+        margin-right: 1.5rem; 
+     }
+    .home-hero-container .home-image-stack {
+        flex: 0 0 40%; 
+        max-width: 300px; 
+        margin: 0 !important;
+        margin-right: 135px !important;
+    }
+    .home-hero-container .home-text-content h1, 
+    .home-hero-container .home-text-content p {
+        margin-left: 135px !important;
+        margin-right: 0 !important;
+        text-align: justify;
+    }
+}
+
+.info-block {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    background-color:rgba(45, 89, 60, 0.85);
+    margin-bottom: 1.5rem;
+}
+.info-block h2, .info-block h3, .info-block p {
+    color: var(--soft-text) !important; 
+}
+.info-block h2, .info-block h3:not(.education h3) {
+    color: var(--soft-text) !important; 
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    height: 250px;
+    perspective: 1000px; 
+
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden; 
+}
+.flip-card-front {
+    background-color: #f1f1f1;
+    color: black;
+}
+.flip-card-back {
+    background-color: var(--accent);
+    color: white;
+    transform: rotateY(180deg);
+    padding: 20px;
+    text-align: left;
+}
+.front-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    border-radius: 10px;
+}
+.flip-card-front h3 {
+    position: absolute;
+    bottom: 10px;
+    color: white; 
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+    margin: 0;
+    font-size: 1.2em;
+}
+.flip-card-back p {
+    font-size: 0.8em;
+    overflow: auto; 
+    max-height: 100%;
+    margin-top: 0;
+    line-height: 1.4;
+}
+        
+.education-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+    gap: 15px;
+    margin-top: 1rem;
+}
+.education {
+    padding: 1rem !important;
+    text-align: center; 
+}
+.education h3 {
+    margin-top: 5px;
+    font-size: 1.1em;
+    color: var(--soft-text) !important; 
+}
+.school-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto 30px auto;
+}
+.slideshow-left-container {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.static-images-right-container {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 400px;
+    justify-content: space-between;
+}
+.static-images-right-container .static-photo {
+    width: 100%;
+    height: calc((100% - 10px) / 3); 
+    object-fit: cover;
+    border-radius: 4px;
+}
+.slideshow-container {
+    max-width: 100%;
+    height: 400px !important;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.mySlides {
+    display: none !important;
+    position: relative !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto !important;
+}
+.mySlides.show {
+    display: block !important;
+}
+.mySlides img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
+.bounce {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    border: 1px solid rgba(0, 0, 0, .15);
+    background-color: var(--accent);
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.bounce p {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    line-height: 150px;
+    text-align: center;
+    transform: translateX(50%);
+    animation: bouncing-text 10s ease-in-out infinite alternate;
+	color: var(--soft-text);
+    font-size: 50px;
+    letter-spacing: 2px;
+}
+@keyframes bouncing-text {
+    0% {
+        transform: translateX(50%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.video-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 1rem;
+}
+.video-item-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+.video-item-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.section-title {
+    color: var(--accent); 
+    border-bottom: 2px solid var(--accent); 
+    padding-bottom: 10px; 
+    margin-bottom: 15px;
+}
+.accent-text {
+    color: var(--accent); 
+    font-weight: bold;
+}
+
+.ui-listview > li {
+    background-color: rgba(45, 89, 60, 0) !important;
+    border-color: var(--border-color) !important;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: flex; 
+    align-items: center;
+}
+.ui-listview > li a {
+    color: var(--soft-text) !important; 
+    word-break: break-all;
+    align-items: center !important;
+}
+.ui-listview strong {
+    color: var(--soft-text);
+    flex-wrap: wrap;
+}
+.ui-listview li i {
+    color: var(--accent);
+    width: 25px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.custom-game-grid {
+    max-width: 900px;
+    margin: 0 auto 30px;
+    text-align: center;
+}
+.game-block {
+    padding: 10px;
+}
+.game-title {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--accent);
+}
+.game-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border: 4px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.game-image:hover {
+    border-color: var(--secondary-color);
+    opacity: 0.9;
+}
+
+.photo-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+.photo-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    padding-bottom: 75%; 
+    height: 0;
+}
+.photo-item .photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.photo-item:hover .photo {
+    transform: scale(1.15);
+}
+
+.home-image-stack .person-img{
+    transition: transform 0.3s ease;
+}
+.home-image-stack:hover .person-img{
+    transform: scale(1.15);
+}
+
+.education.info-block .school-logo{
+    transition: transform 0.3s ease;
+}
+.education.info-block:hover .school-logo{
+    transform: scale(1.15);
+}
+
+.flip-card-front .front-image{
+    transition: transform 0.3s ease;
+}
+.flip-card-front:hover .front-image{
+    transform: scale(1.15);
+}
+</style>
+</head>
+
+<body>
+    <script>
+    //sa games audio
+    let currentAudio = null;
+    function toggleAudio(gameId) {
+        const newAudioId = 'audio-' + gameId;
+        const newAudio = document.getElementById(newAudioId);
+        //stops yung other audio pag may nag play
+        if (currentAudio && currentAudio !== newAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+        //mag play or pause yung audio
+        if (newAudio.paused) {
+            newAudio.play().catch(error => {
+
+                console.log('Audio playback failed:', error);
+            });
+            currentAudio = newAudio;
+        } else {
+            newAudio.pause();
+            newAudio.currentTime = 0; 
+            currentAudio = null;
+        }
+    }
+    //stops when page changes
+    $(document).on('pagebeforehide', '#about', function() {
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+            console.log('Audio paused on page change.');
+        }
+    });
+    //sa gifs
+    $(document).ready(function() {
+             $(document).on('click', '.flip-card', function() {
+                $(this).toggleClass('flipped');
+            });
+        });
+    // sa slideshow photography
+    let slideIndex = 0;
+    let slideTimeout;
+    
+    function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+
+    clearTimeout(slideTimeout); 
+
+    if (slides.length === 0) {
+        return;
+    }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].classList.remove('show');
+    }
+    slideIndex++;
+    if (slideIndex >= slides.length) {
+        slideIndex = 0;
+    }
+    slides[slideIndex].classList.add('show');
+    slideTimeout = setTimeout(showSlides, 1000); 
+    }
+    $(document).on("pageshow", "#about", function() {
+    slideIndex = -1;
+    showSlides();
+    });
+    $(document).on("pagebeforehide", "#about", function() {
+    clearTimeout(slideTimeout);
+    });
+    //sa form if ever na mag cycle through ako then mawawala yung laman nung form
+        $(document).on('pagebeforehide', '#contact', function() {
+        $('#name').val('');
+        $('#email').val('');
+        $('#message').val('');
+    });
+    </script>
+    
+    <div data-role="page" id="home">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="bg-motion4.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <h1 style="letter-spacing: 2px;"><b>Marielle.</b></h1>
+            <a href="#about" data-icon="info" class="ui-btn-right" data-transition="slide"><b>About</a></b>
+        </div>
+        
+        <div role="main" class="ui-content">
+            <div class="home-hero-container">
+                <div class="home-text-content">
+                    <p style="color: rgb(7, 219, 7); letter-spacing: 2px; font-size: 1.2rem;"><b>IT STUDENT & ASPIRING ANIMATOR</b></p>
+                    <h1 style="font-size: 3rem; font-weight: 900; color: var(--soft-text); margin-top: 0.5em;">
+                        Hi! I'm Marielle Corrales.
+                    </h1>
+                    <p style="font-size: 1.1rem; max-width: 750px;">
+                        Hello! I am Marielle and this is my personal portfolio. In this, you'll see and read a glimpse of who am I and some things 
+                        that I'm interested in.<br><br>
+                        My aim is to create, build, and edit things with a flair of weirdness and uniqueness to ensure the work is memorable, fun, and enjoyable!
+                    </p>
+                </div>
+                
+                <div class="home-image-stack">
+                    <img src="mc1.jpg" class="person-img" alt="Marielle">
+                </div>
+            </div>
+            <div style="margin-top: 5rem;"></div>
+        </div>
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+             <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T </b></h4>
+        </div>
+    </div>
+    
+    <div data-role="page" id="about">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <a href="#home" data-icon="back" class="ui-btn-left" data-transition="flip">Back</a>
+            <h1 style="letter-spacing: 2px;"><b>ABOUT</b></h1>
+            <a href="#contact" data-icon="mail" class="ui-btn-right" data-transition="fade"><b>Contact</a></b>
+        </div>
+        
+        <div role="main" class="ui-content">
+            <h2 class="section-title" style="margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 35px;"><img src="profile2.gif" alt="profile gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>PERSONAL PROFILE</b><img src="profile2.gif" alt="profile gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2><br>
+            <div class="info-block">
+                <h3 class="accent-text" style="margin-bottom: 10px; font-size: 25px;"><i class="fas fa-user-circle" style="color: var(--accent); font-size: 1.2em; margin-right: 8px;"></i> About Me</h3>
+                <p style="text-align: justify; font-size: 18px;">My name is Marielle T. Corrales. I am a 3rd year college student studying <b>BS in Information Technology</b>. And I'm also fascinated by:</p>
+            <div style="text-align: center; margin: 15px 0 10px;">
+                <p style="display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2em; color: var(--soft-text); margin: 0;">
+                <img src="pointing.gif" alt="pointing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;">CLICK THEM!<img src="pointing.gif" alt="pointing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></p>
+            </div>
+                
+                <div class="card-grid">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="a5.gif" alt="Art" class="front-image">
+                                <h3>Arts</h3>
+                            </div>
+                            <div class="flip-card-back">
+                                <h2>Art</h2>
+                                <p style="text-align: justify;">Anything could be an art if you put your mind into it.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="a6.gif" alt="Video Games" class="front-image">
+                                <h3>Video Games</h3>
+                            </div>
+                            <div class="flip-card-back">
+                                <h2>Video Games</h2>
+                                <p style="text-align: justify;">I'm glad I was exposed to games when I was little. Games are awesome, epecially when they're story-based. I guess this is why I want to pursue things that line up with technology.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="a7.gif" alt="Reading" class="front-image">
+                                <h3>Reading</h3>
+                            </div>
+                            <div class="flip-card-back">
+                                <h2>Reading</h2>
+                                <p style="text-align: justify;">I wasn't a huge fan of reading back then — I actually despised it. But now that I'm older, I've realized that I should, even if it's literature or just reading stuff. It's important, and you get to learn new words that you would never assume exist. So, read people, read!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="a11.gif" alt="Music" class="front-image">
+                                <h3>Music</h3>
+                            </div>
+                            <div class="flip-card-back">
+                                <h2>Music</h2>
+                                <p style="text-align: justify;">The world would be dull if there wasn't any kind of music.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="a13.gif" alt="Photography" class="front-image">
+                                <h3>Photography</h3>
+                            </div>
+                        <div class="flip-card-back">
+                            <h2>Photography</h2>
+                            <p style="text-align: justify;">Capturing the environment, people, structures, or literally anything is great. You get to look back and capture one-in-a-million moments.</p>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="a17.gif" alt="Animation" class="front-image">
+                            <h3>Animation</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h2>Animation</h2>
+                            <p style="text-align: justify;">Either digital or traditional, it's awesome.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="a15.gif" alt="Cooking" class="front-image">
+                            <h3>Cooking</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h2>Cooking</h2>
+                            <p style="text-align: justify;">I like cooking for myself! Either baking or just making dishes. However, I'm always conscious about other people tasting them.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="a19.gif" alt="Film" class="front-image">
+                            <h3>Astronomy</h3>
+                        </div>
+                        <div class="flip-card-back">
+                            <h2>Astronomy</h2>
+                            <p style="text-align: justify;">Since I was a kid, I have always been fascinated by astronomy. I like how peaceful yet mysterious it is — it has this scary but not-so-scary vibes. It's so huge that it seems like an endless void, full of asteroids, planets, galaxies, stars, and more. I love how it still makes me wonder, curious, and have questions about it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                <p style="text-align: justify; font-size: 18px;">I like it when things are not what they're supposed to be, especially when it comes to the "creative stuff" — kind of like, expect the unexpected.I like unique and weird stuff, whether it's people or things. It makes them memorable and I can even get inspiratons from them.</p>
+            </div>
+            <br>
+            <div class="ui-grid-a">
+                
+                <div class="ui-block-a" style="padding-right: 5px;">
+                    <div class="info-block" style="min-height: 40px;">
+                        <i class="fas fa-users" style="color: var(--accent); font-size: 25px; margin-right: 8px;"></i>
+                        <b style="color: var(--soft-text); font-size: 25px;">Skills & Expertise</b>
+                        <ul style="margin-top: 10px; font-size: 18px; text-align: justify;">
+                            <b>Digital Media:</b> Highly capable in video editing and photo manipulation, including color correction, retouching, etc.<br>
+                            <b>Technical Skills:</b> Able to read, understand, and implement functional code.<br>
+                            <b>Work Ethic:</b> Great at working solo and just as good at collaborating with a team.<br>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ui-block-b" style="padding-left: 5px;">
+                    <div class="info-block" style="min-height: 40px;">
+                        <i class="fas fa-lightbulb" style="color: var(--accent); font-size: 25px; margin-right: 8px;"></i>
+                        <b style="color: var(--soft-text); font-size: 25px;">Did You Know ?</b>
+                        <p style="font-size: 18px; text-align: justify; padding: 19px">I have a skin condition called Dermatographia, and I've had it since I was around 8 years old. Basically, I can write anything on my skin and it will be visible.</p>
+                    </div>
+                </div>
+            </div>
+            <br><br><br>
+            <section id="education-gallery">
+                <h2 class="section-title" style="margin-top: 30px; margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 40px;"><img src="cap.gif" alt="cap gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>EDUCATION</b><img src="cap.gif" alt="cap gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2>
+                <div class="education-wrap">
+                    <div class="education info-block">
+                        <img src="lcb.png" alt="Lemery Colleges" class="school-logo">
+                        <h3>Lemery Colleges</h3>
+                        <p><strong>S.Y. 2023-Present</strong></p>
+                        <p>BS in Information Technology</p>
+                    </div>
+                    <div class="education info-block">
+                        <img src="senior.jpg" alt="RCT Senior" class="school-logo">
+                        <h3>Rizal College of Taal (Senior High)</h3>
+                        <p><strong>S.Y. 2021-2023</strong></p>
+                        <p>With High Honors</p>
+                    </div>
+                    <div class="education info-block">
+                        <img src="junior.jpg" alt="RCT Junior" class="school-logo">
+                        <h3>Rizal College of Taal (Junior High)</h3>
+                        <p><strong>S.Y. 2017-2021</strong></p>
+                        <p>With Honors</p>
+                    </div>
+                    <div class="education info-block">
+                        <img src="bes-transformed.jpeg" alt="BES" class="school-logo">
+                        <h3>Buli Elementary School</h3>
+                        <p><strong>S.Y. 2011-2017</strong></p>
+                        <p>With Honors</p>
+                    </div>
+                </div>
+            </section><br><br><br><br><br><br>
+            
+            <div class="bounce">
+                <p style="letter-spacing: 3px; color: var(--soft-text);"><b>CHECK THESE OUT! ! !</b></p>
+            </div>
+            <br><br><br>
+            
+            <h2 class="section-title" style="text-align: center; letter-spacing: 2px; font-size: 40px;"><img src="game.gif" alt="game gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>GAMES</b><img src="game.gif" alt="game gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2>
+            <p style="text-align: center; margin-bottom: 30px; font-size: 18px; color: var(--accent)">These are some of my all-time favorite games! 
+                The gameplay, storyline, the tracks, and just the overall artwork and scenery are what captured my attention.<br>
+                <b>Click them</b> to listen to the games' themes!
+            </p><br>
+            
+            <div class="ui-grid-c custom-game-grid">
+                <div class="ui-block-a game-block">
+                    <h3 class="game-title">Red Dead Redemption 2</h3>
+                    <img 
+                    src="g4.jpg" 
+                    alt="Red Dead Redemption 2" 
+                    class="game-image" 
+                    onclick="toggleAudio('rdr')"
+                    >
+                    <audio id="audio-rdr" src="RDR2_Outlaws.mp3" preload="auto"></audio>
+                </div>
+                <div class="ui-block-b game-block">
+                    <h3 class="game-title">Pokémon Emerald</h3>
+                    <img 
+                    src="g1.jpg" 
+                    alt="Pokémon Emerald" 
+                    class="game-image" 
+                    onclick="toggleAudio('emerald')"
+                    >
+                    <audio id="audio-emerald" src="PE_Littleroot_Town.mp3" preload="auto"></audio>
+                </div>
+                <div class="ui-block-c game-block">
+                    <h3 class="game-title">Stardew Valley</h3>
+                    <img 
+                    src="g3.jpg" 
+                    alt="Stardew Valley" 
+                    class="game-image" 
+                    onclick="toggleAudio('stardew')"
+                    >
+                    <audio id="audio-stardew" src="SV_Overture.mp3" preload="auto"></audio>
+                </div>
+                <div class="ui-block-d game-block">
+                    <h3 class="game-title">The Last of Us Part I & II</h3>
+                    <img 
+                    src="g2.jpg" 
+                    alt="The Last of Us" 
+                    class="game-image" 
+                    onclick="toggleAudio('lastofus')"
+                    >
+                    <audio id="audio-lastofus" src="TLOU_mainthemem.mp3" preload="auto"></audio>
+                </div>
+            </div>
+            <br><br>
+            <h2 class="section-title" style="margin-top: 30px; margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 35px;"><img src="cam.gif" alt="cam gif" style="width: 70px; height: 70px; margin-right: 6px; vertical-align: middle;"><b>PHOTOGRAPHY</b><img src="cam.gif" alt="cam gif" style="width: 70px; height: 70px; margin-right: 6px; vertical-align: middle;"></h2>
+            <p style="text-align: center; margin-bottom: 30px; font-size: 18px; color: var(--accent)">These are some of the photos I took!</p><br>
+            
+            <div class="main-content">
+                <div class="slideshow-left-container">
+                    <div class="slideshow-container">
+                        <div class="mySlides show">
+                        </div>
+                    <div class="mySlides">
+                        <img src="mock5c.png" alt="mock2">
+                    </div>
+                    <div class="mySlides">
+                        <img src="mock6c.png" alt="mock2">
+                    </div>
+                    <div class="mySlides">
+                        <img src="mock7c.png" alt="mock3">
+                    </div>
+                    </div>
+                </div>
+
+                <div class="static-images-right-container">
+                    <img src="p32.jpg" alt="m1" class="static-photo">
+                    <img src="p25.jpg" alt="m2" class="static-photo">
+                    <img src="p51copy.jpg" alt="m3" class="static-photo">
+                </div>
+            </div>
+
+            <div class="photo-grid-container">
+                <div class="photo-item">
+                    <img src="p41.jpg" alt="Image 1" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p5.jpg" alt="Image 2" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p4.jpg" alt="Image 3" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p40.jpg" alt="Image 4" class="photo">
+                </div>
+
+                <div class="photo-item">
+                    <img src="p35.jpg" alt="Image 5" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p27.jpg" alt="Image 6" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p26.jpg" alt="Image 7" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p28.jpg" alt="Image 8" class="photo">
+                </div>
+
+                <div class="photo-item">
+                    <img src="p46.jpg" alt="Image 9" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p45.jpg" alt="Image 10" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p48.jpg" alt="Image 11" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p49.jpg" alt="Image 12" class="photo">
+                </div>
+
+                <div class="photo-item">
+                    <img src="p22.jpg" alt="Image 13" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p34.jpg" alt="Image 14" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p20.jpg" alt="Image 15" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p17.jpg" alt="Image 16" class="photo">
+                </div>
+
+                <div class="photo-item">
+                    <img src="p23.jpg" alt="Image 17" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p33.jpg" alt="Image 18" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p37.jpg" alt="Image 19" class="photo">
+                </div>
+                <div class="photo-item">
+                    <img src="p36.jpg" alt="Image 20" class="photo">
+                </div>
+            </div>
+            <br><br><br><br>
+            <h2 class="section-title" style="margin-top: 30px; margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 40px;"><img src="film1.gif" alt="film gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>VIDEO CREATIONS</b><img src="film1.gif" alt="film gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2>
+            <p style="color: var(--accent); font-size: 18px; text-align: center;">These are some of my creations that I genuinely enjoyed making. They may be simple, but I had a blast making these!</p><br>
+
+            <div class="video-gallery">
+                <div class="video-item-container">
+                    <iframe src="COFFEE(COMMERCIAL).mp4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="video-item-container">
+                    <iframe src="SUNROOF((MV)).mp4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+        </div>
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+            <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T </b></h4>
+        </div>
+    </div>
+    
+    <div data-role="page" id="contact">
+        <div data-role="header" data-position="fixed" data-tap-toggle="false">
+            <a href="#about" data-icon="back" class="ui-btn-left" data-transition="slide">Back</a>
+            <h1 style="letter-spacing: 2px;"><b>CONTACT</b></h1>
+            <a href="#home" data-role="button" data-icon="home" class="ui-btn-right" data-transition="flip"><b>Return Home</a></b>
+        </div>
+
+        <div role="main" class="ui-content">
+            <h2 class="section-title" style="margin-bottom: 20px; text-align: center; font-size: 35px;"><img src="ringing2.gif" alt="ringing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>Find Me Here </b><img src="ringing2.gif" alt="ringing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2>
+            <p style="font-size: 18px; color: var(--accent); margin-bottom: 25px; text-align: center;">Have a question, a project idea, play a game, or just want to say hi? I'd love to hear from you!</p>
+            
+            
+                
+                <div style="max-width: 900px; margin: 0 auto;">
+                    <div class="info-block" style="text-align: left; margin-bottom: 0;">
+                        <h3 class="accent-text" style="margin-bottom: 15px; letter-spacing: 2px;"><b>Social Links</b></h3>
+                        <ul data-role="listview" data-inset="false">
+                            <li><i class="fa fa-phone"></i> 
+                                <strong>Phone: <a href="tel:09694464827">0969-446-4827</a></strong></li>
+                            <li><i class="fa fa-envelope"></i> 
+                                <strong>Email: <a href="mailto:mariellecorrales.mc@gmail.com">mariellecorrales.mc@gmail.com</a></strong></li>
+                            <li><i class="fab fa-facebook-f"></i> 
+                                <strong>Facebook: <a href="https://www.facebook.com/marie.giltine/">Marielle Corrales</a></strong></li>
+                            <li><i class="fab fa-discord"></i> 
+                                <strong>Discord: <a href="https://www.discordapp.com/users/738922845891199050">mariellestew</a></strong></li>
+                            <li><i class="fab fa-playstation"></i> 
+                                <strong>PlayStation: <a href="https://profile.playstation.com/ayeh_tae1">ayeh_tae1</a></strong></li>
+                            <li><i class="fab fa-reddit"></i> 
+                                <strong>Reddit: <a href="https://www.reddit.com/user/daenyMarielle/">daenyMarielle</a></strong></li>
+                        </ul>
+                           <div style="margin-top: 30px;"></div></div>
+                </div>
+            </div>
+        </div>
+        <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+            <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T</b></h4>
+        </div>
+    </div>
+</body> 
+</html>
