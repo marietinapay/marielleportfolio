@@ -468,6 +468,67 @@ body, .ui-page, .ui-page-theme-a .ui-content {
 .flip-card-front:hover .front-image{
     transform: scale(1.15);
 }
+
+/* Grid Container - UPDATED for 2x2 */
+.design-grid {
+    display: grid;
+    /* This forces exactly 2 columns of equal width */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px;
+    padding: 20px;
+    max-width: 1000px; /* Slightly smaller max-width looks better for 2 cols */
+    margin: 0 auto;
+}
+
+/* Keep all other CSS (portfolio-title, design-item, etc.) the same */
+.portfolio-title {
+    text-align: center;
+    margin-top: 50px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.design-item {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.design-item:hover {
+    transform: translateY(-10px);
+}
+
+.design-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.design-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.design-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #222;
+}
+
+.design-info p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* Optional: Make it 1 column on very small phones for better readability */
+@media (max-width: 600px) {
+    .design-grid {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
 </head>
 
@@ -581,7 +642,7 @@ body, .ui-page, .ui-page-theme-a .ui-content {
             <div style="margin-top: 5rem;"></div>
         </div>
         <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-             <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T </b></h4>
+             <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T - 3D</b></h4>
         </div>
     </div>
     
@@ -596,7 +657,7 @@ body, .ui-page, .ui-page-theme-a .ui-content {
             <h2 class="section-title" style="margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 35px;"><img src="profile2.gif" alt="profile gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>PERSONAL PROFILE</b><img src="profile2.gif" alt="profile gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2><br>
             <div class="info-block">
                 <h3 class="accent-text" style="margin-bottom: 10px; font-size: 25px;"><i class="fas fa-user-circle" style="color: var(--accent); font-size: 1.2em; margin-right: 8px;"></i> About Me</h3>
-                <p style="text-align: justify; font-size: 18px;">My name is Marielle T. Corrales. I am a 3rd year college student studying <b>BS in Information Technology</b>. And I'm also fascinated by:</p>
+                <p style="text-align: justify; font-size: 18px;">My name is Marielle T. Corrales. I am a 3rd year college student at <b>Lemery Colleges</b> studying <b>BS in Information Technology</b>. And I'm also fascinated by:</p>
             <div style="text-align: center; margin: 15px 0 10px;">
                 <p style="display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2em; color: var(--soft-text); margin: 0;">
                 <img src="pointing.gif" alt="pointing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;">CLICK THEM!<img src="pointing.gif" alt="pointing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></p>
@@ -922,10 +983,47 @@ body, .ui-page, .ui-page-theme-a .ui-content {
                     <iframe src="SUNROOF((MV)).mp4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
-
         </div>
+
+        <h2 class="section-title" style="margin-top: 30px; margin-bottom: 15px; text-align: center; letter-spacing: 2px; font-size: 35px;"><img src="pointing.gif" alt="pointing gif" style="width: 70px; height: 70px; margin-right: 6px; vertical-align: middle;"><b>Graphic Design</b><img src="pointing.gif" alt="pointing gif" style="width: 70px; height: 70px; margin-right: 6px; vertical-align: middle;"></h2>
+            <p style="text-align: center; margin-bottom: 30px; font-size: 18px; color: var(--accent)">Take a look at these designs!</p><br>
+<div class="design-grid">
+    
+    <div class="design-item">
+        <img src="coffeecup.jpg" alt="Coffee Brand Mockup">
+        <div class="design-info">
+            <h3>Brand Identity</h3>
+            <p>Product Mockup & Branding</p>
+        </div>
+    </div>
+
+    <div class="design-item">
+        <img src="cupdesign.jpg" alt="Coffee Cup Design Pattern">
+        <div class="design-info">
+            <h3>Logo & Pattern Design</h3>
+            <p>Visual Asset Creation</p>
+        </div>
+    </div>
+
+    <div class="design-item">
+        <img src="filmposter.jpg" alt="Horror Film Poster Black Killer">
+        <div class="design-info">
+            <h3>Film Promotion</h3>
+            <p>Photo Manipulation & Typography</p>
+        </div>
+    </div>
+
+    <div class="design-item">
+        <img src="jrizalposter.jpg" alt="Jose Rizal Sculptor Historical Collage">
+        <div class="design-info">
+            <h3>Historical Collage</h3>
+            <p>Digital Composition & Layout</p>
+        </div>
+    </div>
+
+</div>
         <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-            <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T </b></h4>
+            <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T - 3D</b></h4>
         </div>
     </div>
     
@@ -940,7 +1038,28 @@ body, .ui-page, .ui-page-theme-a .ui-content {
             <h2 class="section-title" style="margin-bottom: 20px; text-align: center; font-size: 35px;"><img src="ringing2.gif" alt="ringing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"><b>Find Me Here </b><img src="ringing2.gif" alt="ringing gif" style="width: 90px; height: 90px; margin-right: 8px; vertical-align: middle;"></h2>
             <p style="font-size: 18px; color: var(--accent); margin-bottom: 25px; text-align: center;">Have a question, a project idea, play a game, or just want to say hi? I'd love to hear from you!</p>
             
-            
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div  style="padding-right: 10px;">
+                    <div class="info-block" style="text-align: left; margin-bottom: 0;">
+                        <h3 class="accent-text" style="margin-bottom: 15px; letter-spacing: 2px;"><b>Send a Message</b></h3>
+                        <form action="#" method="post" data-ajax="false">
+                            <div data-role="fieldcontain">
+                                <label for="name">Name:</label>
+                                <input type="text" name="name" id="name" value="" placeholder="Your Name" required>
+                            </div>
+                            <div data-role="fieldcontain">
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" id="email" value="" placeholder="your.email@gmail.com" required>
+                            </div>
+                            <div data-role="fieldcontain">
+                                <label for="message">Message:</label>
+                                <textarea name="message" id="message" placeholder="Enter message here...(Clicking the social links below are much recommended and stable!)" cols="50" rows="4"></textarea>
+                            </div>
+                            <button type="submit" data-role="button" onclick="alert('Message Sent!')">
+                                <i class="fas fa-paper-plane"></i> Send Message </button>
+                        </form>
+                    </div>
+                </div><br>
                 
                 <div style="max-width: 900px; margin: 0 auto;">
                     <div class="info-block" style="text-align: left; margin-bottom: 0;">
@@ -964,7 +1083,7 @@ body, .ui-page, .ui-page-theme-a .ui-content {
             </div>
         </div>
         <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-            <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T</b></h4>
+            <h4 style="color:var(--soft-text);"><b>&copy; 2025 MTC | B S I T - 3D</b></h4>
         </div>
     </div>
 </body> 
